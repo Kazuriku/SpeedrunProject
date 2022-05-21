@@ -9,6 +9,9 @@ public class monster3behave : MonoBehaviour
     private int movePower = 7;
     private bool facingright = true;
     private Transform target;
+
+    public float knockPower = 100;
+    public float knockDuration = 1;
     // Start is called before the first frame update
     void Awake()
     {
@@ -106,6 +109,13 @@ public class monster3behave : MonoBehaviour
             currnetscale.x *= -1;
             gameObject.transform.localScale = currnetscale;
             facingright = true;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            StartCoroutine(PlayerMove.instance.Knockback(knockDuration, knockPower, this.transform));
         }
     }
 }
