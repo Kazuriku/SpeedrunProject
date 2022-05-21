@@ -19,6 +19,14 @@ public class PlayerMove : MonoBehaviour
     public bool isJumping;
     private bool facingright = true;
 
+    public static PlayerMove instance;
+    public float knockDuration;
+    public float knockbackPower;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -76,5 +84,16 @@ public class PlayerMove : MonoBehaviour
             gameObject.transform.localScale = currnetscale;
             facingright = true;
         }
+    }
+    public IEnumerator Knockback (float knockDuration, float knockbackPower, Transform obj)
+    {
+        float timer = 0;
+        while(knockDuration > timer)
+        {
+            timer += Time.deltaTime;
+            Vector2 direction = (obj.transform.position - this.transform.position).normalized;
+            rb.AddForce(-direction * knockbackPower);
+        }
+        yield return new WaitForSeconds(2f);
     }
 }
