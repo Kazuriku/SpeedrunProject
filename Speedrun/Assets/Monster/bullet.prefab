@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1251097621772976892}
   m_Layer: 0
   m_Name: bullet
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,7 +105,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6
 --- !u!60 &405450163786106817
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -157,6 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9faae226d5401694b9cbef0e370ec849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDelay: 0
-  delayTime: 1
   dieTime: 3
+  knockPower: 30
+  knockDuration: 3

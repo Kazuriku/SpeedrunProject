@@ -10,8 +10,8 @@ public class monster3behave : MonoBehaviour
     private bool facingright = true;
     private Transform target;
 
-    public float knockPower = 100;
-    public float knockDuration = 1;
+    public float knockPower = 0.05f;
+    public float knockDuration = 4f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -71,7 +71,7 @@ public class monster3behave : MonoBehaviour
     }
     bool followtarget()
     {
-        if (Vector2.Distance(transform.position, target.position) < 15 && transform.position.x > target.position.x)
+        if (Vector2.Distance(transform.position, target.position) < 20 && transform.position.x-1 > target.position.x)
         {
                 CancelInvoke();
             if (facingright == true) {
@@ -80,7 +80,7 @@ public class monster3behave : MonoBehaviour
                 nextmove = -1;
             return false;
         }
-        else if (Vector2.Distance(transform.position, target.position) < 15 && transform.position.x < target.position.x)
+        else if (Vector2.Distance(transform.position, target.position) < 20 && transform.position.x+1< target.position.x)
         {
                 CancelInvoke();
             if (facingright == false)

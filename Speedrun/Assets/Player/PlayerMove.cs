@@ -20,12 +20,13 @@ public class PlayerMove : MonoBehaviour
     private bool facingright = true;
 
     public static PlayerMove instance;
-    public float knockDuration;
-    public float knockbackPower;
+
+    private Animator animator;
 
     private void Awake()
     {
         instance = this;
+        animator = GetComponent<Animator>();
     }
     void Start()
     {
@@ -38,9 +39,20 @@ public class PlayerMove : MonoBehaviour
         rb.velocity = new Vector2(moveInput * runSpeed, rb.velocity.y);
         Flip();
     }
-
+    void anim()
+    {
+        if(moveInput < 0 || moveInput > 0)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
+    }
     void Update()
     {
+        anim();
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
@@ -48,6 +60,7 @@ public class PlayerMove : MonoBehaviour
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpForce;
+            animator.SetTrigger("isUp");
         }
 
         if (Input.GetKey(KeyCode.Space) && isJumping == true)
@@ -66,6 +79,7 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
+            animator.SetTrigger("isFalling");
         }
     }
     private void Flip()
@@ -91,9 +105,10 @@ public class PlayerMove : MonoBehaviour
         while(knockDuration > timer)
         {
             timer += Time.deltaTime;
-            Vector2 direction = (obj.transform.position - this.transform.position).normalized;
+            Vector2 direction = (obj.transform.position - transform.position).normalized;
             rb.AddForce(-direction * knockbackPower);
         }
-        yield return new WaitForSeconds(2f);
+        yield return 0;
     }
+
 }
