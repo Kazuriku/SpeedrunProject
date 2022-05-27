@@ -20,6 +20,8 @@ public class PlayerMove : MonoBehaviour
     private bool facingright = true;
 
     public static PlayerMove instance;
+    public bool isDamaged = false;
+    SpriteRenderer spriteRenderer;
 
     private Animator animator;
 
@@ -31,17 +33,20 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(moveInput * runSpeed, rb.velocity.y);
+        if (isDamaged == false) {
+            moveInput = Input.GetAxisRaw("Horizontal");
+            rb.velocity = new Vector2(moveInput * runSpeed, rb.velocity.y);
+        }
         Flip();
     }
     void anim()
     {
-        if(moveInput < 0 || moveInput > 0)
+        if((isDamaged == false && moveInput < 0) || (isDamaged == false && moveInput > 0))
         {
             animator.SetBool("isWalking", true);
         }
@@ -99,16 +104,35 @@ public class PlayerMove : MonoBehaviour
             facingright = true;
         }
     }
-    public IEnumerator Knockback (float knockDuration, float knockbackPower, Transform obj)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        float timer = 0;
-        while(knockDuration > timer)
+        if(collision.gameObject.tag == "Monster")
         {
-            timer += Time.deltaTime;
-            Vector2 direction = (obj.transform.position - transform.position).normalized;
-            rb.AddForce(-direction * knockbackPower);
+            isDamaged = true;
+            onDamaged(collision.transform.position);
         }
-        yield return new WaitForSeconds(3f);
+        
+    }
+
+    void onDamaged(Vector2 targetPos)
+    {
+        rb.velocity = Vector2.zero;
+        gameObject.layer = 11;
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
+        rb.AddForce(new Vector2(dirc, 1) * 40, ForceMode2D.Impulse);
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        Invoke("stop", 0.5f);
+        Invoke("offDamaged", 4);
+    }
+    void stop()
+    {
+        isDamaged = false;
+    }
+    void offDamaged()
+    {
+        gameObject.layer = 10;
+        spriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
 }
