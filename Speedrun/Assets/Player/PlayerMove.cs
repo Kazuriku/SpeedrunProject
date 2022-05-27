@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
             Vector2 direction = (obj.transform.position - transform.position).normalized;
             rb.AddForce(-direction * knockbackPower);
         }
-        yield return 0;
+        yield return new WaitForSeconds(3f);
     }
 
 }
