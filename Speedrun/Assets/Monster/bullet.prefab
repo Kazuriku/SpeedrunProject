@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9165147762603639996}
   - component: {fileID: 405450163786106817}
   - component: {fileID: -1251097621772976892}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bullet
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -158,5 +158,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dieTime: 3
-  knockPower: 30
-  knockDuration: 3

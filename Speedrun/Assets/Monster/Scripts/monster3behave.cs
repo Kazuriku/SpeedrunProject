@@ -9,6 +9,7 @@ public class monster3behave : MonoBehaviour
     private int movePower = 7;
     private bool facingright = true;
     private Transform target;
+    private bool stopfollow;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,9 +27,13 @@ public class monster3behave : MonoBehaviour
         Vector2 frontVec = new Vector2(rigid.position.x + nextmove*3, rigid.position.y);
         Debug.DrawRay(frontVec, Vector3.down, Color.green);
         RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 10, LayerMask.GetMask("Ground"));
-        if(rayHit.collider == null && followtarget())
+        if(rayHit.collider == null)
         {
-            moveChange();
+            stopfollow = true;
+            if (followtarget())
+            {
+                moveChange();
+            }
         }
         Vector2 rightVec = new Vector2(rigid.position.x + nextmove*3.5f, rigid.position.y);
         RaycastHit2D rightrayHit = Physics2D.Raycast(rightVec, Vector2.right, 3, LayerMask.GetMask("Ground"));
@@ -49,12 +54,12 @@ public class monster3behave : MonoBehaviour
     {
         nextmove *= -1;
         CancelInvoke();
-        Invoke("Think", 5);
+        Invoke("Think", 4);
         Flip();
     }
     void Think()
     {
-
+        stopfollow = false;
         nextmove = Random.Range(-1,2);
         float thinkTime = Random.Range(2f, 5f);
         if(nextmove < 0 && facingright == true)
@@ -70,22 +75,33 @@ public class monster3behave : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, target.position) < 20 && transform.position.x-1 > target.position.x)
         {
+            if (!stopfollow)
+            {
                 CancelInvoke();
-            if (facingright == true) {
-                Flip();
-            }
+                if (facingright == true)
+                {
+                    Flip();
+                }
                 nextmove = -1;
-            return false;
+                return false;
+            }
+            else
+                return true;
         }
         else if (Vector2.Distance(transform.position, target.position) < 20 && transform.position.x+1< target.position.x)
         {
-                CancelInvoke();
-            if (facingright == false)
+            if (!stopfollow)
             {
-                Flip();
+                CancelInvoke();
+                if (facingright == false)
+                {
+                    Flip();
+                }
+                nextmove = 1;
+                return false;
             }
-            nextmove = 1;
-            return false;
+            else
+                return true;
         }
         else
             return true;
