@@ -144,10 +144,15 @@ public class PlayerMove : MonoBehaviour
         rb.AddForce(new Vector2(dirc, 1) * 40, ForceMode2D.Impulse);
         knockbacksound.Play();
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        Invoke("stop", 0.3f);
+        Invoke("stop", 0.5f);
         Invoke("offDamaged", 4);
     }
     void stop()
+    {
+        rb.AddForce(new Vector2(-rb.velocity.x, 1), ForceMode2D.Impulse);
+        Invoke("stunover", 2.5f);
+    }
+    void stunover()
     {
         isDamaged = false;
     }
