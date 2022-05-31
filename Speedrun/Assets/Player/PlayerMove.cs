@@ -8,12 +8,12 @@ public class PlayerMove : MonoBehaviour
     public float runSpeed;
     public float jumpForce;
     private float moveInput;
+    private bool iswalking;
 
     private bool isGrounded;
     public Transform feetPos;
     public float checkRadius;
     public LayerMask whatIsGround;
-
     public float jumpTimeCounter;
     public float jumpTime;
     public bool isJumping;
@@ -25,6 +25,8 @@ public class PlayerMove : MonoBehaviour
 
     private Animator animator;
 
+    [SerializeField] public AudioSource knockbacksound;
+    [SerializeField] public AudioSource walksound;
     private void Awake()
     {
         instance = this;
@@ -55,12 +57,31 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
     }
+    void stepsound()
+    {
+        if (rb.velocity.x != 0 && isGrounded)
+        {
+            iswalking = true;
+        }
+        else
+            iswalking = false;
+        if (iswalking)
+        {
+            if (!walksound.isPlaying)
+            {
+                walksound.Play();
+            }
+        }else if(!iswalking && walksound.isPlaying)
+        {
+            walksound.Stop();
+        }
+    }
     void Update()
     {
         anim();
+        stepsound();
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
-
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space) && isDamaged == false)
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
@@ -68,7 +89,7 @@ public class PlayerMove : MonoBehaviour
             animator.SetTrigger("isUp");
         }
 
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping == true && isDamaged == false)
         {
             if (jumpTimeCounter > 0)
             {
@@ -81,7 +102,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
         {
             isJumping = false;
             animator.SetTrigger("isFalling");
@@ -121,8 +142,9 @@ public class PlayerMove : MonoBehaviour
         gameObject.layer = 11;
         int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
         rb.AddForce(new Vector2(dirc, 1) * 40, ForceMode2D.Impulse);
+        knockbacksound.Play();
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        Invoke("stop", 0.5f);
+        Invoke("stop", 0.3f);
         Invoke("offDamaged", 4);
     }
     void stop()
