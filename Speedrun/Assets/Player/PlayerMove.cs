@@ -98,14 +98,15 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
+                animator.SetTrigger("isFalling");
                 isJumping = false;
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
         {
-            isJumping = false;
             animator.SetTrigger("isFalling");
+            isJumping = false;
         }
     }
     private void Flip()
