@@ -5,10 +5,11 @@ using UnityEngine;
 public class wallcontroller : MonoBehaviour
 {
     public GameObject target;
+    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class wallcontroller : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
+            animator.SetTrigger("buttonDown");
             Destroy(target);
         }
     }
