@@ -82,7 +82,7 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        if (GameController.instance.GetPlaying())//3,2,1Àü¿¡ ¸ø ¿òÁ÷ÀÌ°Ô ÇÏ´Â°Å
+        if (GameController.instance.GetPlaying())//3,2,1ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ï´Â°ï¿½
         {
             anim();
             stepsound();
@@ -116,7 +116,15 @@ public class PlayerMove : MonoBehaviour
                 
             }
         }
-        
+
+         if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
+        {
+            animator.SetTrigger("isFalling");
+            isJumping = false;
+        }
+
+
+      
     }
     private void Flip()
     {
