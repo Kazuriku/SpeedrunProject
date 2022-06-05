@@ -40,9 +40,13 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDamaged == false) {
-            moveInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(moveInput * runSpeed, rb.velocity.y);
+        if (GameController.instance.GetPlaying())
+        {
+            if (isDamaged == false)
+            {
+                moveInput = Input.GetAxisRaw("Horizontal");
+                rb.velocity = new Vector2(moveInput * runSpeed, rb.velocity.y);
+            }
         }
         Flip();
     }
@@ -78,36 +82,49 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        anim();
-        stepsound();
-        isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space) && isDamaged == false)
+        if (GameController.instance.GetPlaying())//3,2,1�� �� �����̰� �ϴ°�
         {
-            isJumping = true;
-            jumpTimeCounter = jumpTime;
-            rb.velocity = Vector2.up * jumpForce;
-            animator.SetTrigger("isUp");
-        }
-
-        if (Input.GetKey(KeyCode.Space) && isJumping == true && isDamaged == false)
-        {
-            if (jumpTimeCounter > 0)
+            anim();
+            stepsound();
+            isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+            if (isGrounded == true && Input.GetKeyDown(KeyCode.Space) && isDamaged == false)
             {
+                isJumping = true;
+                jumpTimeCounter = jumpTime;
                 rb.velocity = Vector2.up * jumpForce;
-                jumpTimeCounter -= Time.deltaTime;
+                animator.SetTrigger("isUp");
             }
-            else
+
+            if (Input.GetKey(KeyCode.Space) && isJumping == true && isDamaged == false)
+            {
+                if (jumpTimeCounter > 0)
+                {
+                    rb.velocity = Vector2.up * jumpForce;
+                    jumpTimeCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    animator.SetTrigger("isFalling");
+                    isJumping = false;
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
             {
                 animator.SetTrigger("isFalling");
                 isJumping = false;
+                
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
+         if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
         {
             animator.SetTrigger("isFalling");
             isJumping = false;
         }
+
+
+      
     }
     private void Flip()
     {
