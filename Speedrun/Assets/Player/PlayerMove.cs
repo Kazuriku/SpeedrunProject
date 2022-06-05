@@ -82,7 +82,7 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        if (GameController.instance.GetPlaying())
+        if (GameController.instance.GetPlaying())//3,2,1전에 못 움직이게 하는거
         {
             anim();
             stepsound();
@@ -104,14 +104,16 @@ public class PlayerMove : MonoBehaviour
                 }
                 else
                 {
+                    animator.SetTrigger("isFalling");
                     isJumping = false;
                 }
             }
 
             if (Input.GetKeyUp(KeyCode.Space) || isDamaged == true)
             {
-                isJumping = false;
                 animator.SetTrigger("isFalling");
+                isJumping = false;
+                
             }
         }
         
