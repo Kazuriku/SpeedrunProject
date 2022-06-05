@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 public class Btntype : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 {
@@ -21,7 +22,7 @@ public class Btntype : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         switch (currentType)
         {
             case BTNType.New:
-                Debug.Log("Clicked start btn");
+                SceneManager.LoadScene("New Game");
                 break;
             case BTNType.Ranking:
                 Debug.Log("Clicked ranking btn");
