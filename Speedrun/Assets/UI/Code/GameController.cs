@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
     }
     public void ActiveRankUI()
     {
+    
         MainMenuUI.SetActive(false);
         RankUI.SetActive(true);
 
@@ -110,7 +111,10 @@ public class GameController : MonoBehaviour
         MainMenuUI.SetActive(false);
         InGameUI.SetActive(true);
         timeCounter.text = "00:00.00";
-
+        OptionUI.SetActive(false);
+       
+            
+       
         if (countCor == null)
             countCor = StartCoroutine(CountdownToStart());
         else
@@ -176,20 +180,16 @@ public class GameController : MonoBehaviour
         return gamePlaying;
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.tag == "finish")
-    //    { 
-    //    EndGame();
-    //    }
-    //}
 
     public void EndGame()
     {
         gamePlaying = false;
         FinishTimeTxt.text = timePlaying.ToString("mm':'ss'.'ff");
         Invoke("ShowFinishScreen", 1.25f);
+        Invoke("ShowFinishRanking", 3.5f);
+      
         s.SaveRanking((float)timePlaying.TotalSeconds);
+        
 
     }
     private void ShowFinishScreen()
@@ -199,6 +199,13 @@ public class GameController : MonoBehaviour
         string timePlayingStr = timePlaying.ToString("mm':'ss'.'ff");
         gameOverPanel.transform.Find("record").GetComponent<Text>().text = timePlayingStr;
  }
+    private void ShowFinishRanking()
+    {
+        RankUI.SetActive(true);
+        RankLayoutUI.SetActive(true);
+        RankPrefab.SetActive(true);
+       
+    }
     IEnumerator CountdownToStart()
     {
         int tmptime = countdownTime;
