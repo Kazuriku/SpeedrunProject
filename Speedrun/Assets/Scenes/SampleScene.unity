@@ -13648,7 +13648,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 18
+  m_GravityScale: 15
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -13713,7 +13713,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393223881}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -521.1301, y: -22.573858, z: 0}
+
+  m_LocalPosition: {x: -89.3, y: -35.5, z: -2}
+
+
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460856078}
@@ -13874,14 +13877,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 30
-  jumpForce: 25
+  jumpForce: 40
   feetPos: {fileID: 460856078}
   checkRadius: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   jumpTimeCounter: 0
-  jumpTime: 1
+  jumpTime: 0.4
   isJumping: 0
   isDamaged: 0
   knockbacksound: {fileID: 1393223885}
@@ -20390,7 +20393,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cfb3bbf96b3938d4fb5b90c359564acf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -20409,8 +20412,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005096941}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -272.6901, y: 11.816142, z: 0}
+
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 159.94, y: 0.4, z: -3}
+
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 875356249}
